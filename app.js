@@ -1,61 +1,22 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.8.0/firebase-app.js";
-import {
-  getAuth,
-  signInWithEmailAndPassword,
-  signOut,
-  onAuthStateChanged
-} from "https://www.gstatic.com/firebasejs/12.8.0/firebase-auth.js";
-import {
-  getFirestore,
-  doc,
-  getDoc,
-  setDoc,
-  deleteDoc,
-  collection,
-  getDocs,
-  serverTimestamp
-} from "https://www.gstatic.com/firebasejs/12.8.0/firebase-firestore.js";
+import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.8.0/firebase-auth.js";
+import { getFirestore, doc, getDoc, setDoc, deleteDoc, collection, getDocs, serverTimestamp} from "https://www.gstatic.com/firebasejs/12.8.0/firebase-firestore.js";
 
-/*
-  OPTIONAL HARDENING (Recommended):
-  - App Check for web with reCAPTCHA v3 or Enterprise.
-  Docs show importing app-check and calling initializeAppCheck + provider. :contentReference[oaicite:8]{index=8}
-*/
-// import { initializeAppCheck, ReCaptchaV3Provider } from "https://www.gstatic.com/firebasejs/12.8.0/firebase-app-check.js";
-
-// 1) Replace with your Firebase config from Firebase Console. :contentReference[oaicite:9]{index=9}
 const firebaseConfig = {
-
-    apiKey: "AIzaSyDNoh9ECHtJm3kYgxtLxkkid2X6sBrczis",
-
-    authDomain: "garristown-pitch-github-io.firebaseapp.com",
-
-    projectId: "garristown-pitch-github-io",
-
-    storageBucket: "garristown-pitch-github-io.firebasestorage.app",
-
-    messagingSenderId: "1013736274133",
-
-    appId: "1:1013736274133:web:570f1714494ca0210d8a5c"
-
+  apiKey: "AIzaSyDNoh9ECHtJm3kYgxtLxkkid2X6sBrczis",
+  authDomain: "garristown-pitch-github-io.firebaseapp.com",
+  projectId: "garristown-pitch-github-io",
+  storageBucket: "garristown-pitch-github-io.firebasestorage.app",
+  messagingSenderId: "1013736274133",
+  appId: "1:1013736274133:web:570f1714494ca0210d8a5c"
 };
 
-// 2) “Password-only” UX: we do not show a username field.
-//    Under the hood we sign in using this fixed admin email.
-const ADMIN_EMAIL = "admin@schedule.local"; // set to the email you created in Firebase Auth
+const ADMIN_EMAIL = "admin@gfc.ie";
 
 const app = initializeApp(firebaseConfig);
-
-// OPTIONAL: enable App Check (requires console setup + a site key).
-// initializeAppCheck(app, {
-//   provider: new ReCaptchaV3Provider("YOUR_RECAPTCHA_SITE_KEY"),
-//   isTokenAutoRefreshEnabled: true
-// });
-
 const auth = getAuth(app);
 const db = getFirestore(app);
 
-/* ----------------------------- DOM ----------------------------- */
 const el = (id) => document.getElementById(id);
 
 const dateInput = el("dateInput");
@@ -68,14 +29,12 @@ const loginBtn = el("loginBtn");
 const logoutBtn = el("logoutBtn");
 const manageBtn = el("manageBtn");
 
-/* Login modal */
 const loginModal = el("loginModal");
 const loginClose = el("loginClose");
 const loginForm = el("loginForm");
 const passwordInput = el("passwordInput");
 const loginError = el("loginError");
 
-/* Cell modal */
 const cellModal = el("cellModal");
 const cellClose = el("cellClose");
 const cellDate = el("cellDate");
@@ -87,7 +46,6 @@ const cellSave = el("cellSave");
 const cellDelete = el("cellDelete");
 const cellError = el("cellError");
 
-/* Manage modal */
 const manageModal = el("manageModal");
 const manageClose = el("manageClose");
 const pitchesList = el("pitchesList");
@@ -99,20 +57,16 @@ const addSlotBtn = el("addSlotBtn");
 const manageSave = el("manageSave");
 const manageError = el("manageError");
 
-/* ----------------------------- State ----------------------------- */
 let isAdmin = false;
 let pitches = [];
 let slots = [];
-let dayCells = new Map(); // cellId -> data
-let selectedDateId = ""; // YYYY-MM-DD
+let dayCells = new Map();
+let selectedDateId = "";
 
-// For cell editor
-let selectedPitch = null; // {id, name}
+let selectedPitch = null;
 let selectedSlot = null;
 
-/* -------------------------- Date helpers -------------------------- */
 function todayISO() {
-  // local date in YYYY-MM-DD without timezone drift
   const now = new Date();
   const local = new Date(now.getTime() - now.getTimezoneOffset() * 60000);
   return local.toISOString().slice(0, 10);
@@ -139,9 +93,7 @@ function clearError(targetEl) {
   targetEl.classList.add("hidden");
 }
 
-/* -------------------------- Firestore paths -------------------------- */
 function cellIdFor(pitchId, slotStr) {
-  // stable, doc-id-safe mapping
   const slotKey = slotStr.replaceAll(":", "");
   return `${pitchId}__${slotKey}`;
 }
@@ -158,7 +110,6 @@ async function loadConfig() {
     ? slotsSnap.data().slots
     : [];
 
-  // Sort slots chronologically if they are HH:MM
   slots.sort((a, b) => a.localeCompare(b));
 }
 
@@ -170,15 +121,11 @@ async function loadDay(dateId) {
   dayCells = map;
 }
 
-/* ------------------------------ Render ------------------------------ */
 function renderTable() {
-  // header row: [Time] + pitches
   const thead = [];
   thead.push("<tr>");
   thead.push("<th>Time</th>");
-  for (const p of pitches) {
-    thead.push(`<th>${escapeHtml(p.name)}</th>`);
-  }
+  for (const p of pitches) { thead.push(`<th>${escapeHtml(p.name)}</th>`); }
   thead.push("</tr>");
 
   const tbody = [];
@@ -218,7 +165,6 @@ function renderTable() {
   scheduleTable.innerHTML = `<thead>${thead.join("")}</thead><tbody>${tbody.join("")}</tbody>`;
 
   if (isAdmin) {
-    // click handler
     scheduleTable.querySelectorAll(".cell--clickable").forEach((node) => {
       node.addEventListener("click", () => onCellClick(node));
       node.addEventListener("keydown", (e) => {
@@ -242,11 +188,9 @@ function escapeHtml(str) {
   ));
 }
 function escapeHtmlAttr(str) {
-  // same as escapeHtml, but explicit naming for clarity
   return escapeHtml(str);
 }
 
-/* ------------------------------ Cell edit ------------------------------ */
 function onCellClick(node) {
   clearError(cellError);
 
@@ -293,7 +237,6 @@ async function saveCell() {
 
   try {
     await setDoc(doc(db, "schedule", selectedDateId, "cells", id), payload, { merge: true });
-    // refresh local state for this one cell
     dayCells.set(id, { ...payload, updatedAt: new Date() });
     renderTable();
     closeModal(cellModal);
@@ -328,7 +271,6 @@ async function clearCell() {
   }
 }
 
-/* ------------------------------ Manage config ------------------------------ */
 let draftPitches = [];
 let draftSlots = [];
 
@@ -383,7 +325,6 @@ function slugId(name) {
   const base = name.trim().toLowerCase()
     .replace(/[^a-z0-9]+/g, "-")
     .replace(/^-+|-+$/g, "");
-  // ensure non-empty
   return base || "pitch";
 }
 
@@ -398,7 +339,6 @@ function nextPitchId(existingIds, name) {
 }
 
 function isValidTimeSlot(s) {
-  // Accept HH:MM (00-23):(00-59)
   return /^([01]\d|2[0-3]):[0-5]\d$/.test(s);
 }
 
@@ -464,7 +404,6 @@ async function saveManage() {
   }
 }
 
-/* ------------------------------ Auth ------------------------------ */
 function openModal(modalEl) {
   modalEl.classList.remove("hidden");
 }
@@ -518,11 +457,9 @@ onAuthStateChanged(auth, async (user) => {
   logoutBtn.classList.toggle("hidden", !isAdmin);
   manageBtn.classList.toggle("hidden", !isAdmin);
 
-  // re-render so cells become clickable (or not)
   renderTable();
 });
 
-/* ------------------------------ Init ------------------------------ */
 function initDatePicker() {
   const min = todayISO();
   const max = addDaysISO(min, 365);
@@ -566,7 +503,6 @@ function friendlyError(e) {
   const code = e?.code || "";
   const msg = e?.message || String(e);
 
-  // common Auth errors
   if (code.includes("auth/invalid-credential")) return "Invalid password.";
   if (code.includes("auth/wrong-password")) return "Invalid password.";
   if (code.includes("auth/too-many-requests")) return "Too many attempts. Try again later.";
