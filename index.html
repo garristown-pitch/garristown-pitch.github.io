@@ -64,7 +64,7 @@
       </form>
 
       <div class="modal__footer">
-        <div class="hint">This uses Firebase Authentication; editing is locked by Firestore rules.</div>
+        <div class="hint">Editing is locked by Firestore rules.</div>
       </div>
     </div>
   </div>
@@ -121,7 +121,7 @@
             <input id="newPitchName" type="text" placeholder="e.g., Pitch 4" />
             <button id="addPitchBtn" class="btn btn--ghost" type="button">Add</button>
           </div>
-          <div class="hint">Pitch IDs are generated automatically.</div>
+          <div class="hint">Use “Hidden” to hide a pitch from public view. Admin still sees it.</div>
         </section>
 
         <section class="subcard">
@@ -134,6 +134,46 @@
           </div>
           <div class="hint">Format: HH:MM (24-hour). Example: 10:00</div>
         </section>
+      </div>
+
+      <div class="subcard subcard--full">
+        <h3>Bulk Apply (Selected Pitch, All Times)</h3>
+        <div class="form form--tight">
+          <div class="row row--wrap">
+            <div class="field">
+              <label for="bulkPitch">Pitch</label>
+              <select id="bulkPitch"></select>
+            </div>
+
+            <div class="field">
+              <label for="bulkStart">Start date</label>
+              <input id="bulkStart" type="date" />
+            </div>
+
+            <div class="field">
+              <label for="bulkEnd">End date</label>
+              <input id="bulkEnd" type="date" />
+            </div>
+
+            <div class="field">
+              <label for="bulkStatus">Status</label>
+              <select id="bulkStatus">
+                <option value="available">Available</option>
+                <option value="booked">Booked</option>
+                <option value="blocked">Blocked</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="row row--wrap">
+            <button id="bulkApplyBtn" class="btn btn--primary" type="button">Apply to all times</button>
+            <div id="bulkProgress" class="hint"></div>
+          </div>
+
+          <div class="hint">
+            Notes are not set by bulk apply. Choosing “Available” will clear any existing entries in the range (reverting to default availability).
+          </div>
+        </div>
       </div>
 
       <div id="manageError" class="error hidden"></div>
