@@ -521,6 +521,61 @@ img {
   table.schedule{
     min-width: 0; /* allow table to fit; tablewrap still scrolls if needed */
   }
+  /* Make the manage modal use the full viewport */
+  #manageModal.modal{
+    padding: 0;                 /* remove outer inset */
+    align-items: stretch;
+    justify-content: stretch;
+  }
+
+  /* Full-screen panel */
+  #manageModal .modal__panel--wide{
+    width: 100%;
+    max-width: 100%;
+    height: 100%;
+    max-height: 100%;
+    border-radius: 0;           /* feels like a native sheet */
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;           /* body will scroll, not the panel */
+  }
+
+  /* Keep header visible */
+  #manageModal .modal__header{
+    flex: 0 0 auto;
+    position: sticky;
+    top: 0;
+    z-index: 5;
+    background: rgba(11,35,54,0.96);
+  }
+
+  /* Make the main content area scroll */
+  #manageModal .grid2{
+    flex: 1 1 auto;
+    min-height: 0;              /* critical for overflow in flex children */
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    padding: 14px;              /* consistent inset */
+    grid-template-columns: 1fr; /* ensure single column on phones */
+  }
+
+  /* Make error block and bulk sections behave nicely in 1-col mode */
+  #manageModal .grid-span-2{
+    grid-column: auto;
+  }
+
+  /* Footer stays visible with consistent inset */
+  #manageModal .manage-footer{
+    flex: 0 0 auto;
+    padding: 12px 14px;
+    background: rgba(11,35,54,0.96);
+    border-top: 1px solid var(--border);
+  }
+
+  /* Full-width save button (already used, but reinforce) */
+  #manageModal .btn--full{
+    width: 100%;
+  }
 }
 
 
