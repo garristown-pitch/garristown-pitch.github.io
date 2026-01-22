@@ -377,9 +377,7 @@ table.schedule{
   gap: 14px;
   padding: 14px;
 }
-@media (max-width: 900px){
-  .grid2{ grid-template-columns: 1fr; }
-}
+
 
 .subcard{
   border: 1px solid var(--border);
@@ -438,13 +436,36 @@ img {
 
 /* Constrain the logo strictly */
 .brand__logo{
-  flex: 0 0 auto;                        /* do NOT allow flex growth */
-  height: clamp(36px, 4vw, 56px);        /* responsive height */
-  width: auto;                           /* preserve aspect ratio */
-  max-width: min(240px, 55vw);           /* cap width vs viewport */
-  max-height: 44px;                      /* extra guardrail */
-  object-fit: contain;                   /* safe scaling */
-  display: block;                        /* removes inline baseline quirks */
+  flex: 0 0 auto;
+  height: 88px;                 /* doubled from 44px */
+  width: auto;
+  max-width: min(360px, 70vw);  /* allow it to grow, but keep it inside the screen */
+  object-fit: contain;
+  display: block;
+}
+
+/* Allow a section to span both columns of the manage grid */
+.grid-span-2{
+  grid-column: 1 / -1;
+}
+
+/* Bulk apply should not be “tight” to the card edges */
+.form--tight{
+  padding: 0; /* keep internal spacing controlled by rows/fields */
+}
+
+/* Full-width footer for Save Changes with consistent inset */
+.manage-footer{
+  padding: 0 14px 14px 14px;  /* matches grid2 padding/inset */
+}
+
+.btn--full{
+  width: 100%;
+  display: block;
+}
+
+@media (max-width: 900px){
+  .grid2{ grid-template-columns: 1fr; }
 }
 
 /* Mobile: logo slightly smaller; allow subtitle to wrap if needed */
@@ -454,8 +475,8 @@ img {
   }
 
   .brand__logo{
-    max-width: 55vw;     /* keep it inside the phone width */
-    height: 32px;
+    height: 72px;               /* doubled from 36px */
+    max-width: 80vw;
   }
 
   .topbar{
@@ -502,25 +523,7 @@ img {
   }
 }
 
-/* Allow a section to span both columns of the manage grid */
-.grid-span-2{
-  grid-column: 1 / -1;
-}
 
-/* Bulk apply should not be “tight” to the card edges */
-.form--tight{
-  padding: 0; /* keep internal spacing controlled by rows/fields */
-}
-
-/* Full-width footer for Save Changes with consistent inset */
-.manage-footer{
-  padding: 0 14px 14px 14px;  /* matches grid2 padding/inset */
-}
-
-.btn--full{
-  width: 100%;
-  display: block;
-}
 
 
 
