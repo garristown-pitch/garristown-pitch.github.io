@@ -458,26 +458,24 @@ table.schedule{
   }
 }
 
-/* Ensure Bulk Apply block has the same inset and padding as grid cards */
-#manageModal .subcard--full{
-  margin: 0 14px 14px 14px; /* same inset as grid padding */
-  padding: 0;               /* we control padding via children */
+/* Allow a section to span both columns of the manage grid */
+.grid-span-2{
+  grid-column: 1 / -1;
 }
 
-/* Match header spacing inside the bulk card */
-#manageModal .subcard--full h3{
-  margin: 0;
-  padding: 12px 12px 0 12px;
+/* Bulk apply should not be “tight” to the card edges */
+.form--tight{
+  padding: 0; /* keep internal spacing controlled by rows/fields */
 }
 
-/* Give the bulk content the same “breathing room” as other blocks */
-#manageModal .subcard--full .form--tight{
-  padding: 12px;
+/* Full-width footer for Save Changes with consistent inset */
+.manage-footer{
+  padding: 0 14px 14px 14px;  /* matches grid2 padding/inset */
 }
 
-/* Add proper inset for the bottom-right Save Changes button row */
-#manageModal .modal__panel--wide > .row.row--end{
-  padding: 0 14px 14px 14px;
+.btn--full{
+  width: 100%;
+  display: block;
 }
 
 @media (max-width: 720px){
@@ -485,6 +483,8 @@ table.schedule{
     min-width: 0; /* allow table to fit; tablewrap still scrolls if needed */
   }
 }
+
+
 
 
 

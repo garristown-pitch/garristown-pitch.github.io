@@ -133,52 +133,58 @@
           </div>
           <div class="hint">Format: HH:MM (24-hour). Example: 10:00</div>
         </section>
+
+        <!-- Bulk apply now lives INSIDE grid2 and spans full width -->
+        <section class="subcard grid-span-2">
+          <h3>Bulk Apply (Selected Pitch, All Times)</h3>
+          <div class="form form--tight">
+            <div class="row row--wrap">
+              <div class="field">
+                <label for="bulkPitch">Pitch</label>
+                <select id="bulkPitch"></select>
+              </div>
+
+              <div class="field">
+                <label for="bulkStart">Start date</label>
+                <input id="bulkStart" type="date" />
+              </div>
+
+              <div class="field">
+                <label for="bulkEnd">End date</label>
+                <input id="bulkEnd" type="date" />
+              </div>
+
+              <div class="field">
+                <label for="bulkStatus">Status</label>
+                <select id="bulkStatus">
+                  <option value="available">Available</option>
+                  <option value="booked">Booked</option>
+                  <option value="blocked">Blocked</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="row row--wrap">
+              <button id="bulkApplyBtn" class="btn btn--primary" type="button">Apply to all times</button>
+              <div id="bulkProgress" class="hint"></div>
+            </div>
+
+            <div class="hint">
+              Notes are not set by bulk apply. Choosing “Available” will clear any existing entries in the range (reverting to default availability).
+            </div>
+          </div>
+        </section>
+
+        <!-- Error sits inside the same padded grid area -->
+        <div id="manageError" class="error hidden grid-span-2"></div>
+
       </div>
 
-      <div class="subcard subcard--full">
-        <h3>Bulk Apply (Selected Pitch, All Times)</h3>
-        <div class="form form--tight">
-          <div class="row row--wrap">
-            <div class="field">
-              <label for="bulkPitch">Pitch</label>
-              <select id="bulkPitch"></select>
-            </div>
+      <!-- Footer bar is padded and button is full width -->
+      <div class="manage-footer">
 
-            <div class="field">
-              <label for="bulkStart">Start date</label>
-              <input id="bulkStart" type="date" />
-            </div>
-
-            <div class="field">
-              <label for="bulkEnd">End date</label>
-              <input id="bulkEnd" type="date" />
-            </div>
-
-            <div class="field">
-              <label for="bulkStatus">Status</label>
-              <select id="bulkStatus">
-                <option value="available">Available</option>
-                <option value="booked">Booked</option>
-                <option value="blocked">Blocked</option>
-              </select>
-            </div>
-          </div>
-
-          <div class="row row--wrap">
-            <button id="bulkApplyBtn" class="btn btn--primary" type="button">Apply to all times</button>
-            <div id="bulkProgress" class="hint"></div>
-          </div>
-
-          <div class="hint">
-            Notes are not set by bulk apply. Choosing “Available” will clear any existing entries in the range (reverting to default availability).
-          </div>
-        </div>
-      </div>
-
-      <div id="manageError" class="error hidden"></div>
-
-      <div class="row row--end">
-        <button id="manageSave" class="btn btn--primary" type="button">Save Changes</button>
+        <button id="manageSave" class="btn btn--primary btn--full" type="button">Save Changes</button>
+        
       </div>
     </div>
   </div>
