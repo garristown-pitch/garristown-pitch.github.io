@@ -52,11 +52,6 @@ body{
   border-bottom: 1px solid var(--border);
 }
 
-.brand__title{
-  font-size: 16px;
-  font-weight: 700;
-  letter-spacing: 0.2px;
-}
 .brand__subtitle{
   font-size: 12px;
   color: var(--muted);
@@ -427,34 +422,83 @@ table.schedule{
   color: var(--muted);
 }
 
-/* Mobile: prevent header forcing viewport wider */
+/* Safety: images should never overflow their containers */
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Brand area: align logo + subtitle cleanly */
+.brand{
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;          /* critical in flex layouts */
+}
+
+/* Constrain the logo strictly */
+.brand__logo{
+  flex: 0 0 auto;                        /* do NOT allow flex growth */
+  height: clamp(36px, 4vw, 56px);        /* responsive height */
+  width: auto;                           /* preserve aspect ratio */
+  max-width: min(240px, 55vw);           /* cap width vs viewport */
+  max-height: 44px;                      /* extra guardrail */
+  object-fit: contain;                   /* safe scaling */
+  display: block;                        /* removes inline baseline quirks */
+}
+
+/* Mobile: logo slightly smaller; allow subtitle to wrap if needed */
 @media (max-width: 720px){
+  .brand{
+    gap: 10px;
+  }
+
+  .brand__logo{
+    max-width: 55vw;     /* keep it inside the phone width */
+    height: 32px;
+  }
+
   .topbar{
+    flex-wrap: wrap;
+    justify-content: center;
+    text-align: center;
+    gap: 10px;
+  }
+
+  /* Each section takes full row and centers its contents */
+  .brand,
+  .datebar,
+  .actions{
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    min-width: 0;
+  }
+
+  /* Brand: stack/logo+subtitle nicely */
+  .brand{
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  /* Datebar: keep input centered */
+  .datebar{
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  /* Actions: keep buttons centered and wrap if needed */
+  .actions{
     flex-wrap: wrap;
     gap: 10px;
   }
 
-  .brand, .datebar, .actions{
-    min-width: 0;
-  }
-
-  .brand{
-    flex: 1 1 100%;
-  }
-
-  .datebar{
-    min-width: unset;       /* overrides the 320px */
-    width: 100%;
-    justify-content: flex-start;
-  }
-
-  .actions{
-    width: 100%;
-    justify-content: flex-end;
-  }
-
-  input[type="date"]{
+  input[type="date"] {
     max-width: 100%;
+  }
+
+  table.schedule{
+    min-width: 0; /* allow table to fit; tablewrap still scrolls if needed */
   }
 }
 
@@ -477,13 +521,6 @@ table.schedule{
   width: 100%;
   display: block;
 }
-
-@media (max-width: 720px){
-  table.schedule{
-    min-width: 0; /* allow table to fit; tablewrap still scrolls if needed */
-  }
-}
-
 
 
 

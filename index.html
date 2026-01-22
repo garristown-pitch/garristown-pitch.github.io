@@ -9,13 +9,12 @@
 <body>
   <header class="topbar">
     <div class="brand">
-      <div class="brand__title">Pitch Bookings</div>
+      <img class="brand__logo" src="emblem.png" alt="Garristown Logo">
     </div>
 
     <div class="datebar">
       <label for="dateInput" class="sr-only">Select date</label>
       <input id="dateInput" type="date" />
-      <div id="dateHint" class="hint"></div>
     </div>
 
     <div class="actions">
@@ -35,9 +34,6 @@
           <span class="legend__item"><span class="chip chip--available"></span> Available</span>
           <span class="legend__item"><span class="chip chip--booked"></span> Booked</span>
           <span class="legend__item"><span class="chip chip--blocked"></span> Blocked</span>
-        </div>
-        <div class="smallnote">
-          Current Pitches & Timeslots Below
         </div>
       </div>
 
@@ -184,7 +180,7 @@
       <div class="manage-footer">
 
         <button id="manageSave" class="btn btn--primary btn--full" type="button">Save Changes</button>
-        
+
       </div>
     </div>
   </div>
