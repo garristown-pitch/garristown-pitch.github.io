@@ -708,7 +708,7 @@ function initDatePicker() {
   selectedDateId = min;
   dateInput.value = selectedDateId;
 
-  dateHint.textContent = `Allowed range: ${min} → ${max}`;
+  dateHint.textContent = `Currently Viewable: ${min} → ${max}`;
 
   dateInput.addEventListener("change", async () => {
     const val = dateInput.value;

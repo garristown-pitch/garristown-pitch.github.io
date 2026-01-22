@@ -12,7 +12,13 @@
 }
 
 *{ box-sizing:border-box; }
-html,body{ height:100%; }
+html, body { 
+  
+  overflow-x: hidden;
+  height:100%; 
+
+}
+
 body{
   margin:0;
   font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
@@ -420,3 +426,65 @@ table.schedule{
   font-size: 12px;
   color: var(--muted);
 }
+
+/* Mobile: prevent header forcing viewport wider */
+@media (max-width: 720px){
+  .topbar{
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .brand, .datebar, .actions{
+    min-width: 0;
+  }
+
+  .brand{
+    flex: 1 1 100%;
+  }
+
+  .datebar{
+    min-width: unset;       /* overrides the 320px */
+    width: 100%;
+    justify-content: flex-start;
+  }
+
+  .actions{
+    width: 100%;
+    justify-content: flex-end;
+  }
+
+  input[type="date"]{
+    max-width: 100%;
+  }
+}
+
+/* Ensure Bulk Apply block has the same inset and padding as grid cards */
+#manageModal .subcard--full{
+  margin: 0 14px 14px 14px; /* same inset as grid padding */
+  padding: 0;               /* we control padding via children */
+}
+
+/* Match header spacing inside the bulk card */
+#manageModal .subcard--full h3{
+  margin: 0;
+  padding: 12px 12px 0 12px;
+}
+
+/* Give the bulk content the same “breathing room” as other blocks */
+#manageModal .subcard--full .form--tight{
+  padding: 12px;
+}
+
+/* Add proper inset for the bottom-right Save Changes button row */
+#manageModal .modal__panel--wide > .row.row--end{
+  padding: 0 14px 14px 14px;
+}
+
+@media (max-width: 720px){
+  table.schedule{
+    min-width: 0; /* allow table to fit; tablewrap still scrolls if needed */
+  }
+}
+
+
+

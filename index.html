@@ -10,7 +10,6 @@
   <header class="topbar">
     <div class="brand">
       <div class="brand__title">Pitch Bookings</div>
-      <div class="brand__subtitle">View schedule • Admin can edit</div>
     </div>
 
     <div class="datebar">
@@ -38,7 +37,7 @@
           <span class="legend__item"><span class="chip chip--blocked"></span> Blocked</span>
         </div>
         <div class="smallnote">
-          Admin: click a cell to edit.
+          Current Pitches & Timeslots Below
         </div>
       </div>
 
@@ -64,7 +63,7 @@
       </form>
 
       <div class="modal__footer">
-        <div class="hint">Editing is locked by Firestore rules.</div>
+        <div class="hint">Editing Locked - Firebase</div>
       </div>
     </div>
   </div>
@@ -91,7 +90,7 @@
           <option value="blocked">Blocked</option>
         </select>
 
-        <label for="cellNotes">Notes (optional, max 200 chars)</label>
+        <label for="cellNotes">Enter Team - Max Characters: 200</label>
         <textarea id="cellNotes" rows="3" maxlength="200"></textarea>
 
         <div id="cellError" class="error hidden"></div>
