@@ -578,7 +578,50 @@ img {
   }
 }
 
+/* Make the ADMIN (Manage) modal adapt to any screen size */
+#manageModal.modal{
+  overflow-y: auto;           /* allow scrolling if needed */
+  align-items: flex-start;    /* prevents vertical clipping on short screens */
+}
 
+#manageModal .modal__panel--wide{
+  width: min(900px, calc(100vw - 36px));   /* 18px padding each side */
+  max-width: 100%;
+  max-height: calc(100vh - 36px);          /* fit within viewport */
+  margin: 0 auto;                          /* keep horizontally centered */
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;                        /* internal area scrolls */
+}
+
+/* Keep header visible while content scrolls */
+#manageModal .modal__header{
+  flex: 0 0 auto;
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  background: rgba(11,35,54,0.96);
+}
+
+/* Scrollable content region */
+#manageModal .grid2{
+  flex: 1 1 auto;
+  min-height: 0;                 /* critical: enables child scrolling */
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Footer stays visible and keeps the same inset/gap */
+#manageModal .manage-footer{
+  flex: 0 0 auto;
+  padding: 12px 14px 14px 14px;
+  background: rgba(11,35,54,0.96);
+  border-top: 1px solid var(--border);
+}
+
+#manageModal .btn--full{
+  width: 100%;
+}
 
 
 
