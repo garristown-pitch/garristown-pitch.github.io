@@ -665,7 +665,7 @@ loginForm.addEventListener("submit", async (e) => {
   try {
     await signInWithEmailAndPassword(auth, ADMIN_EMAIL, pw);
     closeModal(loginModal);
-    setStatus("Logged in as admin.");
+    setStatus(" ");
   } catch (err) {
     showError(loginError, `Login failed: ${friendlyError(err)}`);
   }
